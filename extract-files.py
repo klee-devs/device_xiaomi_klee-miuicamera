@@ -37,9 +37,6 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 blob_fixups: blob_fixups_user_type = {
-    'system_ext/priv-app/MiuiCamera/MiuiCamera.apk': blob_fixup()
-        .apktool_patch('patches/'),
-
     'system_ext/lib64/libcamera_algoup_jni.xiaomi.so': blob_fixup()
         .add_needed('libgui_shim_miuicamera.so')
         .sig_replace('08 AD 40 F9', '08 A9 40 F9'),
