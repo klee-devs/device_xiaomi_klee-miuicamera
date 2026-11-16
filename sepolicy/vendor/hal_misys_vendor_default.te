@@ -1,5 +1,3 @@
-# /vendor/bin/hypsys_vendor, serves IMiSysImpl, IHypSysIntl and IMtkblackboxImpl
-
 type hal_misys_vendor_default, domain;
 type hal_misys_vendor_default_exec, exec_type, vendor_file_type, file_type;
 
@@ -19,30 +17,22 @@ allow hal_misys_vendor_default self:capability2 block_suspend;
 get_prop(hal_misys_vendor_default, vendor_default_prop)
 get_prop(hal_misys_vendor_default, boot_status_prop)
 
-# ChargerLogger: charger, fuel gauge and thermal state, plus the Xiaomi
-# charge log ring buffer, and the power_supply uevents it listens to.
 r_dir_file(hal_misys_vendor_default, sysfs_batteryinfo)
 r_dir_file(hal_misys_vendor_default, sysfs_therm)
 allow hal_misys_vendor_default vendor_sysfs_xm_charge_log:dir r_dir_perms;
 allow hal_misys_vendor_default vendor_sysfs_xm_charge_log:file rw_file_perms;
 allow hal_misys_vendor_default self:netlink_kobject_uevent_socket create_socket_perms_no_ioctl;
 
-# MiuiCamera hands frames to IMiSysImpl through ashmem file descriptors.
-# The platform-signed camera passes ashmem buffers through IMiSysImpl.
 allow hal_misys_vendor_default appdomain:fd use;
 allow hal_misys_vendor_default appdomain_tmpfs:file { read getattr map };
 
-# MiSys state under /mnt/vendor/persist/misys
 allow hal_misys_vendor_default persist_data_file:dir create_dir_perms;
 allow hal_misys_vendor_default persist_data_file:file create_file_perms;
 
-# MiuiCamera LUTs and its permission test file under /mnt/vendor/persist/camera
 allow hal_misys_vendor_default camera_persist_file:dir create_dir_perms;
 allow hal_misys_vendor_default camera_persist_file:file create_file_perms;
 
-# MiuiCamera: watermark folders and files in /data/vendor/camera
 allow hal_misys_vendor_default vendor_camera_data_file:dir create_dir_perms;
 allow hal_misys_vendor_default vendor_camera_data_file:file create_file_perms;
 
-# MtkDfd, ModuleManager and MtkDump probe block devices, not needed to operate
 dontaudit hal_misys_vendor_default { block_device expdb_block_device }:blk_file getattr;
